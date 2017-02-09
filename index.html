@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <title>New School Gamers</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="js/main.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport"
+  content="width=device-width, initial-scale=1.0">
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
+  </script>
+  <![endif]-->
+</head>
+<body>
+  <header>
+    <h1>New School Gamers</h1>
+  </header>
+  <nav onmouseover="var navSound = document.getElementById('navSound');
+                    navSound.play(); navSound.volume = 0.8">
+    <ul>
+      <audio id="navSound" src="./audio/nav.wav"></audio>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="Classic.html">Classic Games</a></li>
+      <li><a href="Gems.html">Todays Gems</a></li>
+      <li><a href="game.html">DOOM</a></li>
+    </ul>
+  </nav>
+  
+  <main>
+    <section class="section1">
+      <h2><a href="Classic.html">Good ole' Days</h2>
+        <img src="./Pics/doom2.png" alt="DOOM"
+        content="initial-scale=1.0">
+        </a>
+    </section>
+    
+    <section class="section2">
+      <h3><a href="Gems.html">Modern Days</h3>
+          <img src="./Pics/Mod.jpg" alt="Metal Gear 5"
+          content="initial-scale=1.0">
+          </a>
+    </section>
+    <section class="mainText">
+      <h4>About This Site</h4>
+        <p>This site is nothing more than an attempt to bring
+        the gamers of yesterday and today together, and to 
+        hopefully close the gap between "Old school and New School"
+        gamers.<br>
+        Just remember, have fun, be nice to people, 
+        and don't be a jerk!</p>
+    </section>
+  </main>
+  <footer>
+    <small>Copyright &copy; 2016 Andrew Frideres<br>
+      <a href="AndrewFrideres@gmail.com">AndrewFrideres@gmail.com</a>
+    </small>
+    <audio id="bgMusic" src="./audio/e1m1.mp3" autoplay loop></audio>
+    <script>
+      document.getElementById("bgMusic").volume = 0.25;
+    </script>
+  </footer>
+</body>
+</html>
