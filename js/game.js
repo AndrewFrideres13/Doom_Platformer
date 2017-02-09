@@ -115,28 +115,21 @@ var scoreText;
     //Allows for multiple imps to be created
     imps = game.add.group();
     imps.enableBody = true;
-    imps.physicsBodyType = Phaser.Physics.ARCADE; 
+    //imps.physicsBodyType = Phaser.Physics.ARCADE; Unsure if needed, research
+    
     //Loops and adds enemies as long as their number is lower than the total given
     for (var i = 0; i < enemiesTotal/2; i++) {
       //Spawns imps at random points in the world (away from the player)
       imp = imps.create((game.world.randomX + 500), (-200), "imp");
+      	
       //Imp animations
       imp.animations.add("walk");
       imp.animations.play("walk", 4, true);
       //Anchors imps hitboxes
       imp.scale.setTo(2, 2);
-      imp.anchor.setTo(0.5, 0.3);
-      imp.body.gravity.y = 400;
+      imp.anchor.setTo(0.4, 0.3);
+      imp.body.gravity.y = 290;
       imp.body.collideWorldBounds = true;
-      //imp.body.velocity.x = game.rnd.between(-500, -800);
-      
-      /*if (player.x < imp.x) {
-        imp.scale.x = -2; 
-        imp.body.velocity.x = -5000;
-      } else {
-        imp.scale.x = 2; 
-        imp.body.velocity.x = 5000;
-      }*/
     }
     
     //Allows for multiple demons to be created
@@ -160,29 +153,24 @@ var scoreText;
     }     
   } 
   
-  var imp_speed = 20;
-function followPlayer() {
-  if (player.body.x < imp.body.x)
-  {
-    imp.body.velocity.x = imp_speed * -1;
+  function enemyFollowPlayer() {
+  imps.forEach(function (imp) {
+    game.physics.arcade.accelerateToObject(imp, player, 610, 500, 1000); 
+    if (player.x < imp.x) {
+      imp.scale.x = 2; 
+    } else {
+      imp.scale.x = -2; 
+    }}, game.physics.arcade);
+    
+    if (player.y >= imp.y) {
+      imp.body.gravity.y = 100;
+    } else {
+      imp.body.gravity.y = 290;
+    }
   }
-  else
-  {
-    imp.body.velocity.x = imp_speed;
-  }
-    if (player.body.y < imp.body.y)
-  {
-    imp.body.velocity.y = imp_speed * -1;
-  }
-  else
-  {
-    imp.body.velocity.y = imp_speed;
-  }
-  
-}
   
   function update() { 
-    followPlayer();
+    enemyFollowPlayer();
     game.physics.arcade.collide(demons, Foreground);
     game.physics.arcade.collide(player, Foreground);
     game.physics.arcade.collide(imps, Foreground);
@@ -206,15 +194,12 @@ function followPlayer() {
     //game.physics.arcade.collide(player, imps, killPlayer, null, this);
     game.physics.arcade.collide(player, EndDoor, endLevel, null, this);
     
+    //Lets enemies occasionally phase thru walls for an extra challenge!
     if (dieRoll() < 4) {
         demon.body.checkCollision.left = false;
     }
     
-    
-    
-    //flipEnemy(imps);
     flipPlayer();
-          
     player.body.velocity.x = 0;
     //Assigning Movement keys to WASD And E is setup to let the player aim and Fire upwards
     if ((game.input.keyboard.isDown(Phaser.Keyboard.A)) && (player.alive === true)) {
@@ -249,16 +234,6 @@ function followPlayer() {
       player.scale.x = 0.8; 
     }
   }
-  
-  /*function flipEnemy(enemy) {
-    if (player.x < enemy.x) {
-      enemy.scale.x = -2; 
-      enemy.body.velocity.x = -500;
-    } else {
-      enemy.scale.x = 2; 
-      enemy.body.velocity.x = 500;
-    }
-  }*/
 
   function killEnemies(bullets) {
     bullets.kill();
@@ -361,4 +336,3 @@ function followPlayer() {
       location.assign("https://www.google.com"); 
     }
   }
-  
