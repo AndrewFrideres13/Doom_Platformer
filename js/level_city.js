@@ -7,8 +7,8 @@ var level_city = {
       game.load.image("mLedge", "Pics/mLedge.gif");
       game.load.image("mutant", "Pics/mutant.png");
       game.load.image("goo", "Pics/goo.png");
+      game.load.spritesheet("boss", "Pics/boss.png", 136, 108);
       
-
       game.load.audio("quake", "audio/quake.mp3");
     },
 
@@ -70,6 +70,16 @@ var level_city = {
       game.physics.arcade.enable(player);
       player.body.gravity.y = 680;
       player.body.collideWorldBounds = true;
+      
+      //Boss
+      boss = game.add.sprite(game.world.width - 500, game.world.height - 150, "boss");
+      game.physics.arcade.enable(boss);
+      //Animations backwards, splice and fix later
+      boss.animations.add("walk");
+      boss.animations.play("walk", 4, true);
+      boss.anchor.setTo(0.5, 0.6);
+      boss.scale.setTo(2.5, 2.5);
+      boss.body.bounce.setTo(1, 0);
       
       //Bullets
       bullets = game.add.group();
