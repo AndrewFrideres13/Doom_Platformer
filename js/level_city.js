@@ -4,11 +4,13 @@ var level_city = {
       game.load.image("City", "Pics/city.png");
       game.load.image("metal", "Pics/metal.png");
       game.load.image("door", "Pics/door.jpg");
-      game.load.image("mLedge", "Pics/mLedge.gif");
+      game.load.image("mLedge", "Pics/mLedge.png");
       game.load.image("mutant", "Pics/mutant.png");
       game.load.image("goo", "Pics/goo.png");
       game.load.spritesheet("boss", "Pics/boss.png", 136, 108);
       
+      game.load.audio("bossHurt", "audio/b1hurt.wav");
+      game.load.audio("bossDeath", "audio/b1death.wav");
       game.load.audio("quake", "audio/quake.mp3");
     },
 
@@ -34,26 +36,7 @@ var level_city = {
       map.setCollisionByExclusion([780],true, "EnemyCollision");
       map.setCollisionByExclusion([1],true,"EndDoor");
       
-      //Start Menu  
-      var pauseLogo = game.add.sprite(50, 50, "doom");
-      pauseLogo.inputEnabled = true;
-      pauseLogo.scale.setTo(1.3, 1);
-      game.paused = true;
-      
-      //Starts game and unleashes horde
-      game.input.onDown.add(function unpause() {
-        game.paused = false;
-        pauseLogo.kill();
-          
-        if (pauseLogo.inputEnabled !== false) {
-          start = game.add.audio("start");
-          start.play();
-          pauseLogo.inputEnabled = false;
-        }
-      }, self); 
-      
-      //Enable Physics
-      game.physics.startSystem(Phaser.Physics.ARCADE);
+      level_hell.levelStart();
       
       //Music
       music = game.add.audio("quake");
@@ -61,15 +44,8 @@ var level_city = {
       music.volume = 0.65;
       
       //Player
-      player = game.add.sprite(-40, game.world.height - 97, "DoomGuy");
-      player.animations.add("walk");
-      player.animations.play("walk", 4, true);
-      player.anchor.setTo(0.5, 0.6);
-      player.scale.setTo(0.7, 0.7);
-      game.camera.follow(player);
-      game.physics.arcade.enable(player);
-      player.body.gravity.y = 680;
-      player.body.collideWorldBounds = true;
+      level_hell.spawnPlayer();
+      player.health = 5;
       
       //Boss
       boss = game.add.sprite(game.world.width - 500, game.world.height - 150, "boss");
@@ -77,10 +53,10 @@ var level_city = {
       //Animations backwards, splice and fix later
       boss.animations.add("walk");
       boss.animations.play("walk", 4, true);
-      boss.anchor.setTo(0.5, 0.6);
-      boss.scale.setTo(2.5, 2.5);
-      boss.body.bounce.setTo(1, 0);
-      
+      boss.anchor.setTo(0.2, 0.75);
+      boss.scale.setTo(3, 3);
+      boss.body.velocity.x = -29;
+      boss.health = 5.0;
       //Bullets
       bullets = game.add.group();
       bullets.enableBody = true;
@@ -103,9 +79,10 @@ var level_city = {
         imp.animations.play("walk", 4, true);
         //Anchors imps hitboxes
         imp.scale.setTo(2, 2);
-        imp.anchor.setTo(0.4, 0.3);
+        imp.anchor.setTo(0.3, 0.3);
         imp.body.gravity.y = 200;
         imp.body.collideWorldBounds = true;
+        enemiesTotal--;
       }
       
       //Allows for multiple demons to be created
@@ -121,15 +98,24 @@ var level_city = {
                
         //Sets demons at random angles, anchors their hitboxes
         demon.scale.setTo(0.85, 0.85);
-        demon.anchor.setTo(0.5, 0.5);
+        demon.anchor.setTo(0.4, 0.5);
         demon.body.bounce.setTo(1);
         demon.body.gravity.y = 85;
         demon.body.collideWorldBounds = true;
         demon.body.velocity.x = -500;
+        enemiesTotal--;
       }     
     }, 
     
     enemyFollowPlayer: function () {
+    if (player.x < boss.x) {
+        boss.scale.x = -3;
+        boss.body.velocity.x = -30;        
+    } else {
+        boss.scale.x = 3;
+        boss.body.velocity.x = 30;        
+    }
+      
     imps.forEach(function (imp) {
       game.physics.arcade.accelerateToObject(imp, player, 500, 400, 900); 
       if (player.x < imp.x) {
@@ -146,11 +132,28 @@ var level_city = {
       }
     },
     
-    update: function () { 
+    bossHealth: function () {
+      var bossHurt = game.add.audio("bossHurt");
+      var bossDeath = game.add.audio("bossDeath"); 
+      if (boss.health > 0) {
+        boss.health -= 0.1;
+        bossHurt.volume = 0.2;
+        bossHurt.play();
+      } else {
+          bossDeath.volume = 0.4;
+          bossDeath.play();
+          boss.kill();
+          level_hell.score += 1000;
+        }
+    },
+    
+    update: function () {
       this.enemyFollowPlayer();
       game.physics.arcade.collide(demons, Foreground);
       game.physics.arcade.collide(player, Foreground);
       game.physics.arcade.collide(imps, Foreground);
+      game.physics.arcade.collide(boss, Foreground);
+      game.physics.arcade.collide(boss, EnemyCollision);
       game.physics.arcade.collide(demons, EnemyCollision);
       game.physics.arcade.collide(demons, demons);
       game.physics.arcade.collide(imps, EnemyCollision);
@@ -158,17 +161,15 @@ var level_city = {
       game.physics.arcade.collide(bullets, EnemyCollision, level_hell.killEnemies, null, this);
       game.physics.arcade.collide(bullets, Foreground, level_hell.killEnemies, null, this);
       //Enables bullets to hit and kill enemies
-      if (game.physics.arcade.collide(demons, bullets, level_hell.killEnemies, null, this)) {
-        demonDeaths = true;
-        impDeaths = false;
-      } else if (game.physics.arcade.collide(imps, bullets, level_hell.killEnemies, null, this)) {
-        demonDeaths = false;
-        impDeaths = true; 
-      } 
+      game.physics.arcade.collide(demons, bullets, level_hell.killCaco, null, this);
+      game.physics.arcade.collide(imps, bullets, level_hell.killImp, null, this);
+      game.physics.arcade.collide(boss, bullets, this.bossHealth, null, this);
+
       //If sprites collide pass it to their respective function
-      //game.physics.arcade.collide(player, demons, this.killPlayer, null, this);
-      //game.physics.arcade.collide(player, imps, this.killPlayer, null, this);
-      game.physics.arcade.collide(player, EndDoor, level_hell.endLevel, null, this);
+      //game.physics.arcade.collide(player, demons, level_hell.killPlayer, null, this);
+      //game.physics.arcade.collide(player, imps, level_hell.killPlayer, null, this);
+      //game.physics.arcade.collide(player, boss, level_hell.killPlayer, null, this);
+      game.physics.arcade.collide(player, EndDoor, this.end, null, this);
       
       //Lets enemies occasionally phase thru walls for an extra challenge!
       if (level_hell.dieRoll() < 4) {
@@ -176,26 +177,20 @@ var level_city = {
       }
       
       level_hell.flipPlayer();
-      player.body.velocity.x = 0;
-      //Assigning Movement keys to WASD And E is setup to let the player aim and Fire upwards
-      if ((game.input.keyboard.isDown(Phaser.Keyboard.A)) && (player.alive === true)) {
-        player.scale.x = -0.8;  // a little trick.. flips the image to the left
-        player.body.velocity.x = -300;
-      } else if ((game.input.keyboard.isDown(Phaser.Keyboard.D)) && (player.alive === true)) {
-        player.scale.x = 0.8;  // a little trick.. flips the image to the right
-        player.body.velocity.x = 300;
-      }
-      //Allows jumping while running using W
-      if ((game.input.keyboard.isDown(Phaser.Keyboard.W)) && (player.alive === true)) {
-        if(player.body.onFloor()){
-          player.body.velocity.y = -600;
-        }
-      } else if ((game.input.keyboard.isDown(Phaser.Keyboard.S)) && (player.alive === true)) {
-        player.body.velocity.y += 25;
-      }
-      //Allows user to fire using mouse1
-      if (game.input.activePointer.isDown && (player.alive === true)) {
-        level_hell.fire();
-      }
-    },   
+      level_hell.playerUtilities();
+    },
+  end: function () {
+    var levelComplete;
+      this.score += 1000;
+      game.sound.stopAll();
+      //Resets player and displays their final score and stops the script
+      game.camera.reset(0, 0);
+      //Game over text
+      scoreText = game.add.text(0, 0, "Score: " + score , { fontSize: "48px", fontType: "Comic Sans MS", fill: "#FFF" });
+      levelComplete = game.add.text(150, 200, "Level Complete!", {fontSize: "80px", fontType: "Comic Sans MS", fill: "#FFF" });
+      game.input.onDown.add(function unpause() {
+        game.paused = true;
+        level_hell.pauseGame();
+      }, self);
+  }
 };
