@@ -86,7 +86,7 @@ var level_city = {
       demons.enableBody = true;
       demons.physicsBodyType = Phaser.Physics.ARCADE;
       //Loops and adds enemies as long as their number is lower than the total given
-      for (var i = 0; i < enemiesTotal/2; i++) {
+      for (var j = 0; j < enemiesTotal/2; j++) {
         //Spawns demons at random points in the world (away from the player)
         demon = demons.create((game.world.randomX + 1000), (game.world.randomY + -500), "demon");
         demon.animations.add("walk");

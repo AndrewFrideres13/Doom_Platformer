@@ -2,12 +2,12 @@
   margin: 0;
   padding: 0;
   border: 0;
-	font-weight: normal;
+  font-weight: normal;
   text-align:center;
-	font-style: normal;
-	text-decoration: none;  
+  font-style: normal;
+  text-decoration: none;  
   list-style: none;
-	outline-style: none;
+  outline-style: none;
 }
 
 html {
@@ -51,6 +51,24 @@ h5>img {
   width:20rem;
 }
 
+#gplus {
+  display:inline;
+  margin:auto;
+  width:4rem;
+}
+
+#git {	
+  display:inline;
+  margin:auto;
+  width:3.4rem;
+}
+
+#me {
+  float:none;
+  margin:auto;
+  width:13rem;
+}
+
 nav {
   padding-bottom: 2rem;
   font-weight:bold;
@@ -82,9 +100,14 @@ h3 a:hover, h3 a:focus{
   color: #F5F5DC;
 }
 
-.mainText {
+.mainText, .aboutText {
   font-family: "Papyrus";
   font-size: 1.3em;
+}
+
+.aboutText {
+  text-align:center;
+  margin: 0 10rem 0 10rem;
 }
 
 body{
@@ -97,7 +120,7 @@ main {
 }
 
 main #game{
-  padding:1em, 1em;
+  padding: 1rem 1rem;
   cursor: url("../Pics/chair.png"), default;
 }
 

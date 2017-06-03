@@ -84,7 +84,7 @@ var level_load = {
       pDeath.anchor.setTo(0.7, 0.6);
       pDeath.scale.setTo(0.6, 0.7);
       game.physics.arcade.enable(pDeath);
-      pDeath.body.gravity.y = 130;
+      pDeath.body.gravity.y = 50;
       pDeath.animations.add("pDeath");
       //Player Fire
       pFire = game.add.sprite(player.x, player.y, "pFire");
@@ -119,8 +119,10 @@ var level_load = {
       }
       //Allows user to fire using mouse1
       if (game.input.activePointer.isDown && (player.alive === true)) {
-        player.alpha = 0;
-        pFire.alpha = 1;
+         game.time.events.add(Phaser.Timer.second * 5, player.alpha = 0, this);
+         game.time.events.add(Phaser.Timer.second * 5, pFire.alpha = 1, this);
+        //player.alpha = 0;
+        //pFire.alpha = 1;
         this.fire();
       } else {
         player.alpha = 1;
@@ -325,6 +327,12 @@ var level_load = {
           location.assign("https://www.google.com"); 
         }
         });
+    },
+    
+    goFull: function() {
+      if (!game.scale.isFullScreen) {
+        game.scale.startFullScreen(false);
+      }
     },
 
     endLoad: function () {

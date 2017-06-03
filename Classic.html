@@ -17,9 +17,10 @@
   </header>
   <nav onmouseover="var navSound = document.getElementById('navSound');
                     navSound.play(); navSound.volume = 0.8">
+	<audio id="navSound" src="./audio/nav.wav"></audio>
     <ul>
-      <audio id="navSound" src="./audio/nav.wav"></audio>
       <li><a href="index.html">Home</a></li>
+	  <li><a href="about.html">About Me</a></li>
       <li><a href="Classic.html">Classic Games</a></li>
       <li><a href="Gems.html">Todays Gems</a></li>
       <li><a href="game.html">DOOM</a></li>
@@ -28,10 +29,9 @@
   
   <main>
     <section class="classicSection2">
-      <h3><a href="Gems.html">Modern Days</h3>
-          <img href="Gems.html" src="./Pics/Mod.jpg" alt="Metal Gear 5"
-          content="initial-scale=1.0">
-          </a>
+	  <h3><a href="Gems.html">Modern Days</h3>
+	    <img src="./Pics/Mod.jpg" alt="Metal Gear 5"
+		content="initial-scale=1.0"></a>
     </section>
     
     <section class="gameInfo">
@@ -65,7 +65,11 @@
   </main>
   <footer class="footerScroll">
     <small>Copyright &copy; 2016 Andrew Frideres<br>
-      <a href="AndrewFrideres@gmail.com">AndrewFrideres@gmail.com</a>
+      <a href="https://plus.google.com/u/0/109039236355204168329"><img id="gplus" src="./Pics/gplus.png" alt="AndrewFrideres@Google+"
+      content="initial-scale=1.0"></a>
+	  <a href="https://github.com/AndrewFrideres13"><img id="git" src="./Pics/git.png" alt="AndrewFrideres13@Github"
+	  content="initial-scale=1.0"></a><br>
+	  <a href="mailto:AndrewFrideres13@gmail.com?subject=Resume_Request">AndrewFrideres13@gmail.com</a>	 
     </small>
   </footer>
 </body>
