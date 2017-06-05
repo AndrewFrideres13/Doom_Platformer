@@ -12,7 +12,7 @@
   <![endif]-->
 </head>
 <body>
-  <header>
+  <header id="top">
     <h1>NSG - Classic Games</h1>
   </header>
   <nav onmouseover="var navSound = document.getElementById('navSound');
@@ -23,7 +23,7 @@
 	  <li><a href="about.html">About Me</a></li>
       <li><a href="Classic.html">Classic Games</a></li>
       <li><a href="Gems.html">Todays Gems</a></li>
-      <li><a href="game.html">DOOM</a></li>
+      <li class="dGame"><a href="game.html">DOOM</a></li>
     </ul>
   </nav>
   
@@ -38,12 +38,14 @@
       <h4><img src="./Pics/C1.png" alt="Joystick"></h4>
       <p>This is just a general list of all the classic games,
       and the role they played in gaming history.</p>
+		<div id="picText">Doom</div>
         <h5><img src="./Pics/doom.png" alt="Doom Logo"></h5>
           <p>Well, here it is. The game that is heralded as the start
           of the First Person Shooter genre and was developed by 
           Id Software. One of the reasons too we still have video games
           around today. This game goes at the top of the list because 
           when you think classics, you can't help but think DOOM first.</p>
+		  <div id="picText">Deus Ex</div>
           <h5><img src="./Pics/Deus.png" alt="Deus Ex Logo"></h5>
           <p>Personal favorite, Deus Ex is regarded as one of the greatest
           role playings games of all time even despite its age today.
@@ -53,6 +55,7 @@
           conspiracy theories that are still discussed at length today.
           Good choice/consequence game as well, player actions early on
           can really come back to help or bite you later on!</p>
+		  <div id="picText">Half Life</div>
           <h5><img src="./Pics/HL.png" alt="Half Life Logo"></h5>
           <p>Developed by Valve Software, you play as a mute scientist
           with a crowbar. What is there to not love? Another classic
@@ -62,6 +65,7 @@
           installment is coming out usually follows short behind.
           So, I'll be the first to ask, when is HL3 happening Valve?</p>
     </section>
+	<h3 class="returnToTop"><a href="#top">Return to top</a></h3>
   </main>
   <footer class="footerScroll">
     <small>Copyright &copy; 2016 Andrew Frideres<br>

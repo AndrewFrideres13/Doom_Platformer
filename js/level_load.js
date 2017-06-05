@@ -27,23 +27,6 @@ var level_load = {
   scoreText:null,
 
     preload: function () {
-      //Only loading in general things that are used across all levels
-      game.load.spritesheet("rockExplode", "Pics/rockExplode.png", 80, 86);
-      game.load.spritesheet("demon", "Pics/cacodemon.png", 144, 148);
-      game.load.spritesheet("DoomGuy", "Pics/doomguy.png", 130, 165);
-      game.load.image("bullet", "pics/bullet.png");
-      game.load.image("doom", "Pics/doom.png");
-      game.load.spritesheet("imp", "Pics/imp.png", 46.8, 59);
-      game.load.spritesheet("pFire", "Pics/fire.png", 169, 160);
-      game.load.spritesheet("pDeath", "Pics/pDeath.png", 148, 160);
-      
-      game.load.audio("gurgle", "audio/gurgle.mp3");
-      game.load.audio("cacoDeath", "audio/cacodeath.mp3");
-      game.load.audio("wFire", "audio/fire.mp3");
-      game.load.audio("impDeath", "audio/impdeath.mp3");
-      game.load.audio("pain", "audio/pain.wav");
-      game.load.audio("start", "audio/start.mp3");
-      game.load.audio("jump", "audio/jump.wav");
       this.endLoad();
     },
     

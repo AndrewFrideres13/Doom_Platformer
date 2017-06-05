@@ -1,5 +1,23 @@
 var level_hell = {
     preload: function() {
+	  //Have to load these here....
+	  game.load.spritesheet("rockExplode", "Pics/rockExplode.png", 80, 86);
+      game.load.spritesheet("demon", "Pics/cacodemon.png", 144, 148);
+      game.load.spritesheet("DoomGuy", "Pics/doomguy.png", 130, 165);
+      game.load.image("bullet", "Pics/bullet.png");
+      game.load.image("doom", "Pics/doom.png");
+      game.load.spritesheet("imp", "Pics/imp.png", 46.8, 59);
+      game.load.spritesheet("pFire", "Pics/fire.png", 169, 160);
+      game.load.spritesheet("pDeath", "Pics/pDeath.png", 148, 160);
+      
+      game.load.audio("gurgle", "audio/gurgle.mp3");
+      game.load.audio("cacoDeath", "audio/cacodeath.mp3");
+      game.load.audio("wFire", "audio/fire.mp3");
+      game.load.audio("impDeath", "audio/impdeath.mp3");
+      game.load.audio("pain", "audio/pain.wav");
+      game.load.audio("start", "audio/start.mp3");
+      game.load.audio("jump", "audio/jump.wav");
+	  //Setting the above up in level_load no longer works
       game.load.tilemap("Doom_Map", "js/Doom_Map.json", null, Phaser.Tilemap.TILED_JSON);
       game.load.image("Heck", "Pics/Heck.gif");
       game.load.image("dirt", "Pics/dirt.png");
